@@ -1,6 +1,6 @@
 # doubling-cube
 
-Work-in-progress collectible card game draft client.  Intended to patch holes in existing implementations while giving me a vector to learn React+Redux.
+Very-much-a-work-in-progress collectible card game draft client.  Intended to patch holes in existing implementations while giving me a vector to learn React+Redux+RxJS.
 
 Target architecture is a fluid, reactive draft client communicating with an Express/Mongo backend using websockets to link the distributed clients across X drafters to the draft-state-maintaining backend. 
 
