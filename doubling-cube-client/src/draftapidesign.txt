@@ -1,0 +1,71 @@
+
+
+draft starts
+
+pool is generated = X packs where packs = players * 3
+
+pack = {
+	id: 1,
+	cards: [{},{},{}]
+}
+
+initDraft() 
+	generate packs with UUIDs
+	store packs to PackRfrn[]
+	
+	generates player draft order and names
+	store to Players[]
+	
+	init PlayerIsDraftingPack[] with rels
+	
+getCurrentPack()
+	return pack assigned to player
+	
+getNextPack()
+	get pack in PlayerHasQueuedPacks if there is one
+	
+makePick(card,updatedPack){
+	update PlayerDraftedCards
+	remove pack from PlayerIsDraftingPack[]
+	validate updatedPack[] + card = pack from PackRfrn()
+	update PackRfrn[] by id with updatedPack
+	add new pack (with updated cards) to PlayerHasQueuedPacks[] for next player in order
+}
+
+internal interval to simulate player actions (each 3-7s call makePick() picking random card in playerIsDraftingPack )	
+
+	
+ClientStore
+	their entry in PlayerDraftedCards[] (no one elses)
+	CurrentPack{}
+	
+DraftServerApiMockImpl
+	PackRfrn[]
+	Players[]
+	PlayerDraftedCards[]
+	PlayerIsDraftingPack[] (relates player to pack via ID)
+	PlayerHasQueuedPacks[] (relates player to pack(s) via ID)
+	
+	
+
+DraftPane -> packWasSelectedFrom() -> {card:{card},pack:pack}
+
+pickMade(pack,card) thunk
+---> send picked card and updated pack to backend api
+---> dispatch pickMadeAndSaved action to redux reducer
+	---> redux reducer copies/returns store with PlayerDraftedCards with drafted card
+---> on success of pickMadeAndSaved, call playerIsRequestingNextPack() thunk {playerId}
+	-->	in playerIsRequestingNextPack thunk, call getNextPack() API which associates new pack to user on backend and returns new pack
+		--> dispatch NextPackIsHere action  to redux reducer
+			--> reducer copies/returns store with new object for CurrentPack
+
+
+
+DraftReducer()
+	case packWasSelectedFrom
+		--add card to redux state playerdraftedcards
+		--
+
+
+
+reducer keeps server and redux store in sync

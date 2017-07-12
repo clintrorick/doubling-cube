@@ -1,0 +1,26 @@
+.imagepeek{
+    margin-top: -240px;
+}
+
+.imagepeekleft{
+    margin-right: -150px;
+}
+
+.cardlist{
+    display: flex;
+    flex-direction: row;
+    margin-top:240px;
+}
+
+.draftpane{
+    display:inline-flex;
+}
+
+.card{
+    position:relative;
+    z-index:0;
+}
+
+.card:hover{
+    z-index:50;
+}
